@@ -1,5 +1,9 @@
 package apap.tugas.bobaxixixi.service;
 
-public interface ToppingService {
+import apap.tugas.bobaxixixi.model.Topping;
 
+import java.util.List;
+
+public interface ToppingService {
+    List<Topping> getListTopping();
 }

@@ -1,10 +1,10 @@
 package apap.tugas.bobaxixixi.repository;
 
-import apap.tugas.bobaxixixi.model.BobaTeaXStore;
+import apap.tugas.bobaxixixi.model.Topping;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ToppingDB extends JpaRepository<BobaTeaXStore, Long> {
+public interface ToppingDB extends JpaRepository<Topping, Long> {
 
 }
