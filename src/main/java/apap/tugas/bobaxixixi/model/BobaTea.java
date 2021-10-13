@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -48,5 +49,8 @@ public class BobaTea implements Serializable {
     @JoinColumn(name = "id_topping", referencedColumnName = "idTopping", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Topping topping;
+
+    @OneToMany(mappedBy = "bobaTea")
+    Set<BobaTeaXStore> bobaTeaXStoreSet;
 
 }

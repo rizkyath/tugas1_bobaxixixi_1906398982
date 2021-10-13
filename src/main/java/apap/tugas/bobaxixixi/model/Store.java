@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalTime;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -52,4 +53,6 @@ public class Store implements Serializable{
     @JoinColumn(name = "id_manager", referencedColumnName = "idManager")
     private Manager manager;
 
+    @OneToMany(mappedBy = "store")
+    Set<BobaTeaXStore> bobaTeaXStoreSet;
 }

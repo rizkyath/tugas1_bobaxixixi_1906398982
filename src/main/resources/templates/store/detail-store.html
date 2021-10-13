@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <style>
+        #aaction{
+            margin:2px;
+        }
+    </style>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('store')"></nav>
+
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Detail Store</h2>
+                <br>
+                <p th:text="'Store Name   : ' + ${store.name}"></p>
+                <p th:text="'Address      : ' + ${store.address}"></p>
+                <p th:text="'Open Hour    : ' + ${store.openHour}"></p>
+                <p th:text="'Close Hour   : ' + ${store.closeHour}"></p>
+                Manager  :<p th:text="${store.manager} != null ? ${store.manager.name} : '-'" style="display: inline"></p>
+                <br><br>
+                <div th:if="${bobaTeaXStoreSet != null}">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Topping</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="bobaTea, iterationStatus : ${bobaTeaXStoreSet}">
+                            <td th:text="${iterationStatus.count}"></td>
+                            <td th:text="${bobaTea.boba.name}"></td>
+                            <td th:text="${bobaTea.boba.topping} != null ? ${boba.topping.name} : '-'"></td>
+                            <td th:text="${bobaTea.boba.price}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div><br>
+                <a class="btn btn-success btn-sm" href="#">+ Add Boba to Store</a><br>
+            </div><br>
+            <a class="btn btn-primary" th:href="@{/store}">Back</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

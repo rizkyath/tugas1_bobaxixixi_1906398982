@@ -43,7 +43,7 @@
     </head>
 </head>
 <body>
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+<nav th:fragment="navbar(page)" class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand font-weight-bold text-primary" href="#">BOBAXIXIXI</a>
     <button class="navbar-toggler"
             type="button"
@@ -58,36 +58,35 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Store
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Boba
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Search</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Filter</a>
-            </li>
+            <a th:classappend="${page == 'home'} ? active : ''" class="nav-item nav-link" th:href="@{/}">
+                Home<span class="sr-only">{current}</span>
+            </a>
+            <a th:classappend="${page == 'store'} ? active : ''" class="nav-item nav-link" th:href="@{/store}">
+                Store<span class="sr-only">{current}</span>
+            </a>
+            <a th:classappend="${page == 'boba'} ? active : ''" class="nav-item nav-link" th:href="@{/boba}">
+                Boba<span class="sr-only">{current}</span>
+            </a>
+            <a th:classappend="${page == 'search'} ? active : ''" class="nav-item nav-link" th:href="@{/search}">
+                Search<span class="sr-only">{current}</span>
+            </a>
+            <a th:classappend="${page == 'filter'} ? active : ''" class="nav-item nav-link" th:href="@{/filter/manager}">
+                Filter<span class="sr-only">{current}</span>
+            </a>
 
         </ul>
+
+<!--        <li class="nav-item dropdown">-->
+<!--            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                Store-->
+<!--            </a>-->
+<!--            <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+<!--                <a class="dropdown-item" href="#">View All Store</a>-->
+<!--                <a class="dropdown-item" href="#">Add Store</a>-->
+<!--                &lt;!&ndash;                    <div class="dropdown-divider"></div>&ndash;&gt;-->
+<!--                <a class="dropdown-item" href="#">here</a>-->
+<!--            </div>-->
+<!--        </li>-->
 <!--        <form class="form-inline my-2 my-lg-0">-->
 <!--            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
 <!--            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->

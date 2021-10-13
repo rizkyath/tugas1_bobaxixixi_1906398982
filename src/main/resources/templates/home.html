@@ -7,6 +7,19 @@
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 <body>
-<nav th:replace="fragments/fragment :: navbar"></nav>
+<nav th:replace="fragments/fragment :: navbar('home')"></nav>
+
+<div class="d-flex justify-content-center">
+    <div class="m-4">
+        <h2> Welcome to BobaXixixi</h2><br>
+        <div class="d-flex justify-content-center">
+            <a th:href="@{/store}" class="mx-2 btn btn-primary">Store</a>
+            <a th:href="@{/boba}" class="mx-2 btn btn-primary">Boba Tea</a>
+            <a th:href="@{/search}" class="mx-2 btn btn-outline-primary">Search</a>
+            <a th:href="@{/filter/manager}" class="mx-2 btn btn-outline-primary">Filter</a>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

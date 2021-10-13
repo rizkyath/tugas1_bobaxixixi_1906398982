@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Store</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('store')"></nav>
+
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Update Store</h2>
+                <br>
+                <form th:action="@{/store/update}" th:object="${store}" method="POST">
+                    <input type="hidden" th:field="*{storeCode}" />
+                    <input type="hidden" th:field="*{idStore}" />
+
+                    Nama Store : <br>
+                    <input class="form-control" type="text" name="name" th:value="*{name}"/>
+                    <br>
+
+                    Manager : <br>
+                    <select name="manager" class="custom-select" th:field="*{manager}" th:if="${storeManager != null}">
+                        <option selected th:text="${storeManager.name}" th:value="${storeManager.idManager}"></option>
+                        <option th:each="manager : ${listManager}"
+                                th:value="${manager.idManager}"
+                                th:text="${manager.name}"></option>
+                    </select>
+
+                    <select name="manager" class="custom-select" th:field="*{manager}" th:unless="${storeManager != null}">
+                        <option selected value="">Choose...</option>
+                        <option th:each="manager : ${listManager}"
+                                th:value="${manager.idManager}"
+                                th:text="${manager.name}"></option>
+                    </select><br><br>
+                    Address :
+                    <textarea class="form-control" aria-label="With textarea" name="address" th:value="*{address}" th:text="*{address}"></textarea><br>
+
+                    Open Hour : <br>
+                    <input required class="form-control" type="time" name="openHour" th:value="*{openHour}"/>
+                    <br><br>
+
+                    Close Hour : <br>
+                    <input required class="form-control" type="time" name="closeHour" th:value="*{closeHour}"/>
+                    <br><br>
+
+                    <a class="mx-2 btn btn-outline-primary" href="/">Cancel</a>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
