@@ -28,7 +28,7 @@
                         <option selecte value="">Choose...</option>
                         <option th:each="manager : ${listManager}"
                                 th:value="${manager.idManager}"
-                                th:text="${manager.name}"></option>
+                                th:text="${manager.fullName}"></option>
                     </select><br><br>
 
                     Address :

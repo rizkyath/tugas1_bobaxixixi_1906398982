@@ -24,7 +24,7 @@
                 <p th:text="'Address      : ' + ${store.address}"></p>
                 <p th:text="'Open Hour    : ' + ${store.openHour}"></p>
                 <p th:text="'Close Hour   : ' + ${store.closeHour}"></p>
-                Manager  :<p th:text="${store.manager} != null ? ${store.manager.name} : '-'" style="display: inline"></p>
+                Manager  : <p th:text="${store.manager} != null ? ${store.manager.fullName} : '-'" style="display: inline"></p>
                 <br><br>
                 <div th:if="${bobaTeaXStoreSet != null}">
                     <table class="table">
@@ -47,7 +47,7 @@
                     </table>
 
                 </div><br>
-                <a class="btn btn-success btn-sm" href="#">+ Add Boba to Store</a><br>
+                <a class="btn btn-success btn-sm" th:href="@{/store/} + ${store.idStore} + @{/assign-boba}">+ Add Boba to Store</a><br>
             </div><br>
             <a class="btn btn-primary" th:href="@{/store}">Back</a>
         </div>

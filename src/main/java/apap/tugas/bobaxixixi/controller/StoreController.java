@@ -1,8 +1,10 @@
 package apap.tugas.bobaxixixi.controller;
 
+import apap.tugas.bobaxixixi.model.BobaTea;
 import apap.tugas.bobaxixixi.model.BobaTeaXStore;
 import apap.tugas.bobaxixixi.model.Manager;
 import apap.tugas.bobaxixixi.model.Store;
+import apap.tugas.bobaxixixi.service.BobaTeaService;
 import apap.tugas.bobaxixixi.service.ManagerService;
 import apap.tugas.bobaxixixi.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,10 @@ public class StoreController {
     @Qualifier("managerServiceImpl")
     @Autowired
     private ManagerService managerService;
+
+    @Qualifier("bobaTeaServiceImpl")
+    @Autowired
+    private BobaTeaService bobaTeaService;
 
     @GetMapping("/store")
     public String listStore(Model model){
@@ -109,5 +115,27 @@ public class StoreController {
         }
     }
 
+    @GetMapping("/store/{idStore}/assign-boba")
+    public String assignBobaForm(
+            @PathVariable long idStore,
+            Model model
+    ) {
+        Store store = storeService.getStoreById(idStore);
+        List<BobaTea> listBoba = bobaTeaService.getListBobaTea();
+        model.addAttribute("store", store);
+        model.addAttribute("dummyStore", new Store());
+        model.addAttribute("listBobaTea", listBoba);
+        return "store/form-assign-boba";
+    }
+
+    @PostMapping("/store/{idStore}/assign-boba")
+    public String assignBobaSubmitPage(
+            @ModelAttribute Store store,
+            Model model
+    ){
+        Store assignedStore = store;
+        System.out.println(store.getBobaTeaXStoreSet().toString());
+        return "home";
+    }
 
 }
