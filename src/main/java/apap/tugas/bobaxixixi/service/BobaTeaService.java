@@ -8,4 +8,7 @@ import java.util.List;
 public interface BobaTeaService {
     List<BobaTea> getListBobaTea();
     void addBobaTea(BobaTea bobaTea);
+    BobaTea getBobaTeaById(long idBobaTea);
+    void updateBobaTea(BobaTea bobaTea);
+    void deleteBobaTeaById(long idBobaTea);
 }

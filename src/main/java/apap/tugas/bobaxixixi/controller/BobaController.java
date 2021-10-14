@@ -1,7 +1,10 @@
 package apap.tugas.bobaxixixi.controller;
 
 import apap.tugas.bobaxixixi.model.BobaTea;
+import apap.tugas.bobaxixixi.model.BobaTeaXStore;
+import apap.tugas.bobaxixixi.model.Store;
 import apap.tugas.bobaxixixi.service.BobaTeaService;
+import apap.tugas.bobaxixixi.service.StoreService;
 import apap.tugas.bobaxixixi.service.ToppingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,12 +12,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class BobaController {
+    @Qualifier("storeServiceImpl")
+    @Autowired
+    private StoreService storeService;
 
     @Qualifier("bobaTeaServiceImpl")
     @Autowired
@@ -46,6 +54,58 @@ public class BobaController {
         model.addAttribute("namaBobaTea", bobaTea.getName());
         model.addAttribute("idBobaTea", bobaTea.getIdBobaTea());
         return "bobatea/success-add-bobatea";
+    }
+
+    @GetMapping("/boba/update/{idBobaTea}")
+    public String updateBobaTeaForm(
+            @PathVariable long idBobaTea,
+            Model model
+    ) {
+        BobaTea bobaTea = bobaTeaService.getBobaTeaById(idBobaTea);
+        model.addAttribute("bobaTea", bobaTea);
+        model.addAttribute("topping", bobaTea.getTopping());
+        model.addAttribute("listTopping", toppingService.getListTopping());
+        return "bobaTea/form-update-bobatea";
+    }
+
+    @PostMapping("/boba/update")
+    public String updateBobaTeaSubmitPage(
+            @ModelAttribute BobaTea bobaTea,
+            Model model
+    ){
+        Set<BobaTeaXStore> bobaTeaXStoreSet = bobaTea.getBobaTeaXStoreSet();
+        if (bobaTeaXStoreSet != null){
+            for (BobaTeaXStore bobaTeaXStore : bobaTeaXStoreSet){
+                Store store = bobaTeaXStore.getStore();
+                if (!storeService.isTutup(store)) return "bobatea/fail-update-bobatea";
+            }
+        }
+        bobaTeaService.updateBobaTea(bobaTea);
+        model.addAttribute("namaBobaTea", bobaTea.getName());
+        model.addAttribute("idBobaTea", bobaTea.getIdBobaTea());
+        return "bobatea/success-update-bobatea";
+    }
+
+    @GetMapping("boba/delete/{idBobaTea}")
+    public String deleteBobaTea(
+            @PathVariable long idBobaTea,
+            Model model
+    ) {
+        BobaTea bobaTea = bobaTeaService.getBobaTeaById(idBobaTea);
+        Set<BobaTeaXStore> bobaTeaXStoreSet = bobaTea.getBobaTeaXStoreSet();
+        model.addAttribute("namaBoba", bobaTea.getName());
+        model.addAttribute("idBobaTea", bobaTea.getIdBobaTea());
+        try {
+            if (bobaTeaXStoreSet.size() == 0) {
+                bobaTeaService.deleteBobaTeaById(idBobaTea);
+                return "bobatea/success-delete-bobatea";
+            } else {
+                return "bobatea/fail-delete-bobatea";
+            }
+        } catch (NullPointerException e) {
+            bobaTeaService.deleteBobaTeaById(idBobaTea);
+            return "bobatea/success-delete-bobatea";
+        }
     }
 
     @GetMapping("/search")

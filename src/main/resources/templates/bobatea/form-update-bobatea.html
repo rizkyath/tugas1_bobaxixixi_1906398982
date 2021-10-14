@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('boba')"></nav>
+
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Add Boba Tea</h2>
+                <br>
+                <form th:action="@{/boba/update}" th:object="${bobaTea}" method="POST">
+                    <input type="hidden" th:field="*{idBobaTea}" />
+
+                    Name : <br>
+                    <input class="form-control" type="text" name="name" th:value="*{name}"/>
+                    <br>
+
+                    Price : <br>
+                    <input class="form-control" type="text" name="price" th:value="*{price}"/>
+                    <br>
+
+                    Size : <br>
+                    <select name="size" class="custom-select" th:field="*{size}" th:value="*{size}">
+                        <option selected value="">Choose...</option>
+                        <option value="0">S</option>
+                        <option value="1">M</option>
+                        <option value="2">L</option>
+                    </select><br><br>
+
+                    Ice Level : <br>
+                    <select name="iceLevel" class="custom-select" th:field="*{iceLevel}" th:value="*{iceLevel}">
+                        <option selected value="">Choose...</option>
+                        <option value="0">Less</option>
+                        <option value="1">Normal</option>
+                        <option value="2">Extra</option>
+                    </select><br><br>
+
+                    Sugar Level : <br>
+                    <select name="sugarLevel" class="custom-select" th:field="*{sugarLevel}" th:value="*{sugarLevel}">
+                        <option selecte value="">Choose...</option>
+                        <option value="0">Less</option>
+                        <option value="1">Normal</option>
+                        <option value="2">Extra</option>
+                    </select><br><br>
+
+                    Topping : <br>
+                    <select name="topping" class="custom-select" th:field="*{topping}" th:if="${topping == null}">
+                        <option selected value="">Choose...</option>
+                        <option th:each="bobaTopping : ${listTopping}"
+                                th:value="${bobaTopping.idTopping}"
+                                th:text="${bobaTopping.name}"></option>
+                    </select>
+
+                    <select name="topping" class="custom-select" th:field="*{topping}" th:unless="${topping == null}" th:value="${topping.idTopping}">
+                        <option selected>Choose...</option>
+                        <option th:each="bobaTopping : ${listTopping}"
+                                th:value="${bobaTopping.idTopping}"
+                                th:text="${bobaTopping.name}"></option>
+                    </select>
+                    <br><br>
+
+                    <a class="mx-2 btn btn-outline-primary" href="/">Cancel</a>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

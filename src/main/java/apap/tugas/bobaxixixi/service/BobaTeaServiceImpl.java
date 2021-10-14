@@ -24,5 +24,19 @@ public class BobaTeaServiceImpl implements BobaTeaService {
         bobaTeaDB.save(bobaTea);
     }
 
+    @Override
+    public BobaTea getBobaTeaById(long idBobaTea){
+        return bobaTeaDB.getBobaTeaByIdBobaTea(idBobaTea);
+    }
+
+    @Override
+    public void updateBobaTea(BobaTea bobaTea){
+        bobaTeaDB.save(bobaTea);
+    }
+
+    @Override
+    public void deleteBobaTeaById(long idBobaTea){
+        bobaTeaDB.deleteBobaTeaByIdBobaTea(idBobaTea);
+    }
 
 }
