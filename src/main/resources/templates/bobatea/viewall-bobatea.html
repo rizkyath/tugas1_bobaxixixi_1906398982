@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Boba Tea</title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
     <style>
@@ -39,7 +39,7 @@
                         <tr th:each="bobaTea, iterationStatus : ${listBobaTea}">
                             <td th:text="${iterationStatus.count}"></td>
                             <td th:text="${bobaTea.name}"></td>
-                            <td th:text="${bobaTea.price}"></td>
+                            <td th:text="'Rp ' + ${#numbers.formatInteger(bobaTea.price,0,'POINT')}"></td>
                             <div th:switch="${bobaTea.size}">
                                 <td th:case="0" th:text="S"></td>
                                 <td th:case="1" th:text="M"></td>
@@ -57,7 +57,7 @@
                             </div>
                             <td th:text="${bobaTea.topping != null} ? ${bobaTea.topping.name} : '-'"></td>
                             <td style="width: 35px">
-                                <a type="button" class="btn btn-info btn-sm" th:href="@{boba/} + ${bobaTea.idBobaTea}">View</a>
+                                <a type="button" class="btn btn-info btn-sm" th:href="@{boba/} + ${bobaTea.idBobaTea} + @{assign-boba}">Assign</a>
                                 <a type="button" class="btn btn-warning btn-sm" th:href="@{boba/update/} + ${bobaTea.idBobaTea}">Update</a>
                                 <a type="button" class="btn btn-danger btn-sm" th:href="@{boba/delete/} + ${bobaTea.idBobaTea}">Delete</a>
                             </td>
