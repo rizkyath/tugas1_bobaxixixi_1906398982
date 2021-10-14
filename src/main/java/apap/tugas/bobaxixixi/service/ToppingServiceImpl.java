@@ -19,4 +19,9 @@ public class ToppingServiceImpl implements ToppingService {
     public List<Topping> getListTopping(){
         return toppingDB.findAll();
     }
+
+    @Override
+    public List<Topping> getListToppingByName(String toppingName){
+        return toppingDB.getToppingByName(toppingName);
+    }
 }

@@ -1,6 +1,7 @@
 package apap.tugas.bobaxixixi.service;
 
 import apap.tugas.bobaxixixi.model.BobaTea;
+import apap.tugas.bobaxixixi.model.Topping;
 import apap.tugas.bobaxixixi.repository.BobaTeaDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,19 @@ public class BobaTeaServiceImpl implements BobaTeaService {
     @Override
     public void deleteBobaTeaById(long idBobaTea){
         bobaTeaDB.deleteBobaTeaByIdBobaTea(idBobaTea);
+    }
+
+    @Override
+    public List<BobaTea> filterBobaTea(String bobaName, List<Topping> listTopping){
+        List<BobaTea> filteredBoba = bobaTeaDB.getBobaTeaByName(bobaName);
+        for (int i = 0; i<filteredBoba.size(); i++) {
+            for (Topping topping : listTopping) {
+                if (filteredBoba.get(i).getTopping().getName() != topping.getName()) {
+                    filteredBoba.remove(i);
+                }
+            }
+        }
+        return filteredBoba;
     }
 
 }

@@ -3,6 +3,7 @@ package apap.tugas.bobaxixixi.controller;
 import apap.tugas.bobaxixixi.model.BobaTea;
 import apap.tugas.bobaxixixi.model.BobaTeaXStore;
 import apap.tugas.bobaxixixi.model.Store;
+import apap.tugas.bobaxixixi.model.Topping;
 import apap.tugas.bobaxixixi.service.BobaTeaService;
 import apap.tugas.bobaxixixi.service.StoreService;
 import apap.tugas.bobaxixixi.service.ToppingService;
@@ -10,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
@@ -109,8 +107,27 @@ public class BobaController {
     }
 
     @GetMapping("/search")
-    public String search(){
-        return "home";
+    public String searchGetMapping(Model model) {
+        List<BobaTea> listBoba = bobaTeaService.getListBobaTea();
+        List<Topping> listTopping = toppingService.getListTopping();
+        model.addAttribute("listBobaTea", listBoba);
+        model.addAttribute("listTopping", listTopping);
+        return "bobatea/search";
+    }
+
+    @RequestMapping("/search")
+    public String searchRequestMapping(
+            @RequestParam(value="bobaName", required = true) String bobaName,
+            @RequestParam(value="topping", required = true) String toppingName,
+            Model model
+    ) {
+        List<BobaTea> listBoba = bobaTeaService.getListBobaTea();
+        List<Topping> listTopping = toppingService.getListTopping();
+        List<BobaTea> filteredBobaTea = bobaTeaService.filterBobaTea(bobaName, toppingService.getListToppingByName(toppingName));
+        model.addAttribute("listBobaTea", listBoba);
+        model.addAttribute("listTopping", listTopping);
+        model.addAttribute("filteredBobaTea", filteredBobaTea);
+        return "bobatea/search";
     }
 
 }
