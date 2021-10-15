@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Boba successfully assigned.</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('store')"></nav>
+
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body" style="padding: 25px;">
+            <div class="justify-content-center">
+                <h2 style="text-align: center;" th:text="${msg}"></h2>
+                <br>
+                <div>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Size</th>
+                            <th>Ice</th>
+                            <th>Sugar</th>
+                            <th>Topping</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="bobaTeaXStore, iterationStatus : ${listBobaTeaXStore}">
+                            <td th:text="${bobaTeaXStore.bobaTea.name}"></td>
+                            <td th:text="${bobaTeaXStore.bobaTea.price}"></td>
+                            <td th:text="${bobaTeaXStore.bobaTea.size}"></td>
+                            <td th:text="${bobaTeaXStore.bobaTea.iceLevel}"></td>
+                            <td th:text="${bobaTeaXStore.bobaTea.sugarLevel}"></td>
+                            <td th:text="${bobaTeaXStore.bobaTea.topping == null} ? '-' : ${bobaTeaXStore.bobaTea.topping.name}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div><br>
+            </div><br>
+            <a class="btn btn-primary" th:href="@{/store}">Back</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

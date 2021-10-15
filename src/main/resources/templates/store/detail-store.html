@@ -26,7 +26,7 @@
                 <p th:text="'Close Hour   : ' + ${store.closeHour}"></p>
                 Manager  : <p th:text="${store.manager} != null ? ${store.manager.fullName} : '-'" style="display: inline"></p>
                 <br><br>
-                <div th:if="${bobaTeaXStoreSet != null}">
+                <div th:if="${store.bobaTeaXStoreSet != null}">
                     <table class="table">
                         <thead>
                         <tr>
@@ -37,11 +37,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="bobaTea, iterationStatus : ${bobaTeaXStoreSet}">
+                        <tr th:each="boba, iterationStatus : ${store.bobaTeaXStoreSet}">
                             <td th:text="${iterationStatus.count}"></td>
-                            <td th:text="${bobaTea.boba.name}"></td>
-                            <td th:text="${bobaTea.boba.topping} != null ? ${boba.topping.name} : '-'"></td>
-                            <td th:text="${bobaTea.boba.price}"></td>
+                            <td th:text="${boba.bobaTea.name}"></td>
+                            <td th:text="${boba.bobaTea.topping} != null ? ${boba.bobaTea.topping.name} : '-'"></td>
+                            <td th:text="${boba.bobaTea.price}"></td>
                         </tr>
                         </tbody>
                     </table>

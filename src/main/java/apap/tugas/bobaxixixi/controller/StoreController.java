@@ -5,19 +5,16 @@ import apap.tugas.bobaxixixi.model.BobaTeaXStore;
 import apap.tugas.bobaxixixi.model.Manager;
 import apap.tugas.bobaxixixi.model.Store;
 import apap.tugas.bobaxixixi.service.BobaTeaService;
+import apap.tugas.bobaxixixi.service.BobaTeaXStoreService;
 import apap.tugas.bobaxixixi.service.ManagerService;
 import apap.tugas.bobaxixixi.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class StoreController {
@@ -33,6 +30,10 @@ public class StoreController {
     @Qualifier("bobaTeaServiceImpl")
     @Autowired
     private BobaTeaService bobaTeaService;
+
+    @Qualifier("bobaTeaXStoreServiceImpl")
+    @Autowired
+    private BobaTeaXStoreService bobaTeaXStoreService;
 
     @GetMapping("/store")
     public String listStore(Model model){
@@ -68,6 +69,9 @@ public class StoreController {
         Set<BobaTeaXStore> bobaTeaXStore = store.getBobaTeaXStoreSet();
         model.addAttribute("store", store);
         model.addAttribute("bobaTeaXStore", bobaTeaXStore);
+        for (BobaTeaXStore bobaTeaXStore1 : store.getBobaTeaXStoreSet()){
+            System.out.println(bobaTeaXStore1.getBobaTea().getName());
+        }
         return "store/detail-store";
     }
 
@@ -123,19 +127,32 @@ public class StoreController {
         Store store = storeService.getStoreById(idStore);
         List<BobaTea> listBoba = bobaTeaService.getListBobaTea();
         model.addAttribute("store", store);
-        model.addAttribute("dummyStore", new Store());
         model.addAttribute("listBobaTea", listBoba);
         return "store/form-assign-boba";
     }
 
     @PostMapping("/store/{idStore}/assign-boba")
     public String assignBobaSubmitPage(
-            @ModelAttribute Store store,
+            @ModelAttribute Store storePassed,
+            @RequestParam(value="bobaAssignedId", required = false) int[] bobaAssignedIds,
             Model model
     ){
-        Store assignedStore = store;
-        System.out.println(store.getBobaTeaXStoreSet().toString());
-        return "home";
+        Store store = storeService.getStoreById(storePassed.getIdStore());
+        bobaTeaXStoreService.deleteRelasiByStore(store);
+        if (bobaAssignedIds != null){
+            for (int i = 0; i<bobaAssignedIds.length; i++) {
+                BobaTeaXStore bobaTeaXStore = new BobaTeaXStore();
+                BobaTea bobaTea = bobaTeaService.getBobaTeaById(bobaAssignedIds[i]);
+                bobaTeaXStore.setStore(store);
+                bobaTeaXStore.setBobaTea(bobaTea);
+                bobaTeaXStoreService.addBobaTeaXStore(bobaTeaXStore);
+            }
+            model.addAttribute("listBobaTeaXStore", store.getBobaTeaXStoreSet());
+            model.addAttribute("msg", "Boba Teas successfully updated for Store" + store.getName());
+        } else {
+            model.addAttribute("msg", "Boba unassigned from Store " + store.getName());
+        }
+        return "store/success-assign-boba";
     }
 
 }

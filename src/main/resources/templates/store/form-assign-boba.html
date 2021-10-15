@@ -15,14 +15,14 @@
             <div class="justify-content-center">
                 <h2 style="text-align: center;" th:text="'Add Boba to ' + ${store.name}"></h2>
                 <br>
-                <form th:action="@{/store/} + ${store.idStore} + @{/assign-boba}" th:object="${dummyStore}" method="POST">
-                    <input type="hidden" th:field="*{idStore}">
-                    <input type="hidden" th:field="*{name}">
-                    <input type="hidden" th:field="*{address}">
-                    <input type="hidden" th:field="*{storeCode}">
-                    <input type="hidden" th:field="*{openHour}">
-                    <input type="hidden" th:field="*{closeHour}">
-                    <input type="hidden" th:field="*{manager}">
+                <form th:action="@{/store/} + ${store.idStore} + @{/assign-boba}" method="POST">
+<!--                    <input type="hidden" th:field="*{idStore}">-->
+<!--                    <input type="hidden" th:field="*{name}">-->
+<!--                    <input type="hidden" th:field="*{address}">-->
+<!--                    <input type="hidden" th:field="*{storeCode}">-->
+<!--                    <input type="hidden" th:field="*{openHour}">-->
+<!--                    <input type="hidden" th:field="*{closeHour}">-->
+<!--                    <input type="hidden" th:field="*{manager}">-->
                     <div>
                         <table class="table">
                             <thead>
@@ -39,20 +39,32 @@
                             <tbody>
                             <tr th:each="bobaTea, iterationStatus : ${listBobaTea}">
                                 <td>
-                                    <input class="form-check-input" type="checkbox" th:field="*{bobaTeaXStoreSet}"
+                                    <input class="form-check-input" type="checkbox" name="bobaAssignedId"
                                            th:value="${bobaTea.idBobaTea}" id="flexCheckDefault">
-
                                 </td>
                                 <td th:text="${bobaTea.name}"></td>
                                 <td th:text="${bobaTea.price}"></td>
-                                <td th:text="${bobaTea.size}"></td>
-                                <td th:text="${bobaTea.iceLevel}"></td>
-                                <td th:text="${bobaTea.sugarLevel}"></td>
+                                <div th:switch="${bobaTea.size}">
+                                    <td th:case="0" th:text="S"></td>
+                                    <td th:case="1" th:text="M"></td>
+                                    <td th:case="2" th:text="L"></td>
+                                </div>
+                                <div th:switch="${bobaTea.iceLevel}">
+                                    <td th:case="0" th:text="Less"></td>
+                                    <td th:case="1" th:text="Normal"></td>
+                                    <td th:case="2" th:text="Extra"></td>
+                                </div>
+                                <div th:switch="${bobaTea.sugarLevel}">
+                                    <td th:case="0" th:text="Less"></td>
+                                    <td th:case="1" th:text="Normal"></td>
+                                    <td th:case="2" th:text="Extra"></td>
+                                </div>
                                 <td th:text="${bobaTea.topping == null} ? '-' : ${bobaTea.topping.name}"></td>
                             </tr>
                             </tbody>
                         </table>
                     </div><br>
+                    <a class="mx-2 btn btn-outline-primary" th:href="@{/store}">Cancel</a>
                     <button class="btn btn-success" type="submit">Add Selected Boba Tea</button>
                 </form>
 
