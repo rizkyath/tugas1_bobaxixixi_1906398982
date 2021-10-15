@@ -55,4 +55,9 @@ public class BobaTeaXStoreServiceImpl implements BobaTeaXStoreService {
     public void deleteRelasiByStore(Store store){
         bobaTeaXStoreDB.deleteAllByStore(store);
     }
+
+    @Override
+    public void deleteRelasiByBobaTea(BobaTea bobaTea) {
+        bobaTeaXStoreDB.deleteAllByBobaTea(bobaTea);
+    }
 }

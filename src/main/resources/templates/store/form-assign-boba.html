@@ -16,13 +16,6 @@
                 <h2 style="text-align: center;" th:text="'Add Boba to ' + ${store.name}"></h2>
                 <br>
                 <form th:action="@{/store/} + ${store.idStore} + @{/assign-boba}" method="POST">
-<!--                    <input type="hidden" th:field="*{idStore}">-->
-<!--                    <input type="hidden" th:field="*{name}">-->
-<!--                    <input type="hidden" th:field="*{address}">-->
-<!--                    <input type="hidden" th:field="*{storeCode}">-->
-<!--                    <input type="hidden" th:field="*{openHour}">-->
-<!--                    <input type="hidden" th:field="*{closeHour}">-->
-<!--                    <input type="hidden" th:field="*{manager}">-->
                     <div>
                         <table class="table">
                             <thead>

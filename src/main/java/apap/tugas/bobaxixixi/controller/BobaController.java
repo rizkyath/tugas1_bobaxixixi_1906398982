@@ -5,6 +5,7 @@ import apap.tugas.bobaxixixi.model.BobaTeaXStore;
 import apap.tugas.bobaxixixi.model.Store;
 import apap.tugas.bobaxixixi.model.Topping;
 import apap.tugas.bobaxixixi.service.BobaTeaService;
+import apap.tugas.bobaxixixi.service.BobaTeaXStoreService;
 import apap.tugas.bobaxixixi.service.StoreService;
 import apap.tugas.bobaxixixi.service.ToppingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,10 @@ public class BobaController {
     @Qualifier("toppingServiceImpl")
     @Autowired
     private ToppingService toppingService;
+
+    @Qualifier("bobaTeaXStoreServiceImpl")
+    @Autowired
+    private BobaTeaXStoreService bobaTeaXStoreService;
 
     @GetMapping("/boba")
     public String listBoba(Model model){
@@ -106,6 +111,43 @@ public class BobaController {
         }
     }
 
+    @GetMapping("/boba/{idBoba}/assign-store")
+    public String assignStoreForm(
+            @PathVariable long idBoba,
+            Model model
+    ) {
+        BobaTea bobaTea = bobaTeaService.getBobaTeaById(idBoba);
+        List<Store> listStore = storeService.getListStore();
+        model.addAttribute("bobaTea", bobaTea);
+        model.addAttribute("listStore", listStore);
+        return "bobatea/form-assign-store";
+    }
+
+    @PostMapping("/boba/{idBoba}/assign-store")
+    public String assignStoreSubmitPage(
+            @PathVariable long idBoba,
+            @ModelAttribute BobaTea bobaTeaPassed,
+            @RequestParam(value="storeAssignedId", required = false) int[] storeAssignedIds,
+            Model model
+    ){
+        BobaTea bobaTea = bobaTeaService.getBobaTeaById(idBoba);
+        bobaTeaXStoreService.deleteRelasiByBobaTea(bobaTea);
+        if (storeAssignedIds != null){
+            for (int i = 0; i<storeAssignedIds.length; i++) {
+                BobaTeaXStore bobaTeaXStore = new BobaTeaXStore();
+                Store store = storeService.getStoreById(storeAssignedIds[i]);
+                bobaTeaXStore.setStore(store);
+                bobaTeaXStore.setBobaTea(bobaTea);
+                bobaTeaXStoreService.addBobaTeaXStore(bobaTeaXStore);
+            }
+            model.addAttribute("listBobaTeaXStore", bobaTea.getBobaTeaXStoreSet());
+            model.addAttribute("msg", "Store successfully updated for Boba Tea " + bobaTea.getName());
+        } else {
+            model.addAttribute("msg", "Store unassigned from Store " + bobaTea.getName());
+        }
+        return "bobatea/success-assign-store";
+    }
+
     @GetMapping("/search")
     public String searchGetMapping(Model model) {
         List<BobaTea> listBoba = bobaTeaService.getListBobaTea();
@@ -121,12 +163,8 @@ public class BobaController {
             @RequestParam(value="topping", required = true) String toppingName,
             Model model
     ) {
-        List<BobaTea> listBoba = bobaTeaService.getListBobaTea();
-        List<Topping> listTopping = toppingService.getListTopping();
-        List<BobaTea> filteredBobaTea = bobaTeaService.filterBobaTea(bobaName, toppingService.getListToppingByName(toppingName));
-        model.addAttribute("listBobaTea", listBoba);
-        model.addAttribute("listTopping", listTopping);
-        model.addAttribute("filteredBobaTea", filteredBobaTea);
+        System.out.println(bobaName);
+        System.out.println(toppingName);
         return "bobatea/search";
     }
 

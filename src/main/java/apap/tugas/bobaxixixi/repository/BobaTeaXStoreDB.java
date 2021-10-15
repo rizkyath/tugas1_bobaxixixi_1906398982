@@ -12,4 +12,5 @@ import java.util.List;
 public interface BobaTeaXStoreDB extends JpaRepository<BobaTeaXStore, Long> {
     List<BobaTeaXStore> findBobaTeaXStoreByStoreAndAndBobaTea(Store store, BobaTea bobaTea);
     void deleteAllByStore(Store store);
+    void deleteAllByBobaTea(BobaTea bobaTea);
 }
