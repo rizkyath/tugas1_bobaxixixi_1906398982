@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface BobaTeaXStoreDB extends JpaRepository<BobaTeaXStore, Long> {
-    List<BobaTeaXStore> findBobaTeaXStoreByStoreAndAndBobaTea(Store store, BobaTea bobaTea);
     void deleteAllByStore(Store store);
     void deleteAllByBobaTea(BobaTea bobaTea);
+    List<BobaTeaXStore> findAllByBobaTea(BobaTea bobaTea);
 }

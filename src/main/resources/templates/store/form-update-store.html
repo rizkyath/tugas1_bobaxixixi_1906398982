@@ -25,10 +25,10 @@
 
                     Manager : <br>
                     <select name="manager" class="custom-select" th:field="*{manager}" th:if="${storeManager != null}">
-                        <option selected th:text="${storeManager.name}" th:value="${storeManager.idManager}"></option>
+                        <option selected th:text="${storeManager.fullName}" th:value="${storeManager.idManager}"></option>
                         <option th:each="manager : ${listManager}"
                                 th:value="${manager.idManager}"
-                                th:text="${manager.name}"></option>
+                                th:text="${manager.fullName}"></option>
                     </select>
 
                     <select name="manager" class="custom-select" th:field="*{manager}" th:unless="${storeManager != null}">

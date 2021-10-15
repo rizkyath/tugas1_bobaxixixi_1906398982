@@ -11,6 +11,5 @@ import java.util.List;
 public interface BobaTeaDB extends JpaRepository<BobaTea, Long> {
     BobaTea getBobaTeaByIdBobaTea(long idBobaTea);
     Long deleteBobaTeaByIdBobaTea(long idBobaTea);
-    List<BobaTea> getBobaTeaByTopping(Topping topping);
-    List<BobaTea> getBobaTeaByName(String name);
+    List<BobaTea> findAllByName(String name);
 }

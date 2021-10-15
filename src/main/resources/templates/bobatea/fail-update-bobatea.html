@@ -14,8 +14,10 @@
     <div class="card m-4 p-4">
         <div class="card-body">
             <div class="justify-content-center">
-                <h2 th:text="${namaBobaTea} + ' can't be updated because there is still an open store that is selling it!.'"></h2>
+                <h2 th:text="'boba ' + ${namaBobaTea} + ' cannot be updated'"></h2>
                 <br>
+                <p>Please confirm that:</p>
+                <li>There is no open store selling this boba</li>
                 <a class="btn btn-primary" th:href="@{/boba}">Back</a>
             </div>
         </div>

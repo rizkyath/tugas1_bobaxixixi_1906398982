@@ -31,10 +31,22 @@
                         <tbody>
                         <tr th:each="bobaTeaXStore, iterationStatus : ${listBobaTeaXStore}">
                             <td th:text="${bobaTeaXStore.bobaTea.name}"></td>
-                            <td th:text="${bobaTeaXStore.bobaTea.price}"></td>
-                            <td th:text="${bobaTeaXStore.bobaTea.size}"></td>
-                            <td th:text="${bobaTeaXStore.bobaTea.iceLevel}"></td>
-                            <td th:text="${bobaTeaXStore.bobaTea.sugarLevel}"></td>
+                            <td th:text="'Rp ' + ${#numbers.formatInteger(bobaTeaXStore.bobaTea.price,0,'POINT')}"></td>
+                            <div th:switch="${bobaTeaXStore.bobaTea.size}">
+                                <td th:case="0" th:text="S"></td>
+                                <td th:case="1" th:text="M"></td>
+                                <td th:case="2" th:text="L"></td>
+                            </div>
+                            <div th:switch="${bobaTeaXStore.bobaTea.iceLevel}">
+                                <td th:case="0" th:text="Less"></td>
+                                <td th:case="1" th:text="Normal"></td>
+                                <td th:case="2" th:text="Extra"></td>
+                            </div>
+                            <div th:switch="${bobaTeaXStore.bobaTea.sugarLevel}">
+                                <td th:case="0" th:text="Less"></td>
+                                <td th:case="1" th:text="Normal"></td>
+                                <td th:case="2" th:text="Extra"></td>
+                            </div>
                             <td th:text="${bobaTeaXStore.bobaTea.topping == null} ? '-' : ${bobaTeaXStore.bobaTea.topping.name}"></td>
                         </tr>
                         </tbody>

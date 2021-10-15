@@ -41,16 +41,18 @@ public class BobaTeaServiceImpl implements BobaTeaService {
     }
 
     @Override
-    public List<BobaTea> filterBobaTea(String bobaName, List<Topping> listTopping){
-        List<BobaTea> filteredBoba = bobaTeaDB.getBobaTeaByName(bobaName);
-        for (int i = 0; i<filteredBoba.size(); i++) {
-            for (Topping topping : listTopping) {
-                if (filteredBoba.get(i).getTopping().getName() != topping.getName()) {
-                    filteredBoba.remove(i);
-                }
-            }
+    public List<BobaTea> filterBobaTea(String bobaName, String toppingName){
+        List<BobaTea> filteredBobaTea = bobaTeaDB.findAllByName(bobaName);
+        for (int i = 0; i<filteredBobaTea.size(); i++){
+            if (!filteredBobaTea.get(i).getTopping().getName().equals(toppingName))
+                filteredBobaTea.remove(i);
         }
-        return filteredBoba;
+        return filteredBobaTea;
+    }
+
+    @Override
+    public List<BobaTea> getListBobaTeaByName(String name) {
+        return bobaTeaDB.findAllByName(name);
     }
 
 }

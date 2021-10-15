@@ -59,7 +59,7 @@
                     </select>
 
                     <select name="topping" class="custom-select" th:field="*{topping}" th:unless="${topping == null}" th:value="${topping.idTopping}">
-                        <option selected>Choose...</option>
+                        <option selected value="">Choose...</option>
                         <option th:each="bobaTopping : ${listTopping}"
                                 th:value="${bobaTopping.idTopping}"
                                 th:text="${bobaTopping.name}"></option>

@@ -1,8 +1,6 @@
 package apap.tugas.bobaxixixi.service;
 
-
 import apap.tugas.bobaxixixi.model.BobaTea;
-import apap.tugas.bobaxixixi.model.Topping;
 
 import java.util.List;
 
@@ -12,5 +10,6 @@ public interface BobaTeaService {
     BobaTea getBobaTeaById(long idBobaTea);
     void updateBobaTea(BobaTea bobaTea);
     void deleteBobaTeaById(long idBobaTea);
-    List<BobaTea> filterBobaTea(String name, List<Topping> listTopping);
+    List<BobaTea> filterBobaTea(String name, String Topping);
+    List<BobaTea> getListBobaTeaByName(String name);
 }

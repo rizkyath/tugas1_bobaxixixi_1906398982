@@ -14,8 +14,9 @@
     <div class="card m-4 p-4">
         <div class="card-body">
             <div class="justify-content-center">
-                <h2 th:text="'boba ' + ${namaBobaTea} + ' with id ' + ${idBobaTea} + ' is still assigned to a Store and can't be deleted!'"></h2>
+                <h2 th:text="'boba ' + ${namaBobaTea} + ' cannot be deleted'"></h2>
                 <br>
+                <p>Please confirm this Boba is not assigned to a Store</p>
                 <a class="btn btn-primary" th:href="@{/boba}">Back</a>
             </div>
         </div>

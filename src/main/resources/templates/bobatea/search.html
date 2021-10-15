@@ -15,7 +15,7 @@
             <div class="justify-content-center">
                 <h2 style="text-align: center">Find Available Boba Variant by Topping</h2>
                 <br><br>
-                <form th:action="@{search/}" method="GET">
+                <form th:action="@{/search}" method="GET">
                     <div class="row">
                         <div class="col">
                             <select name="bobaName" class="custom-select" required>
@@ -44,39 +44,36 @@
                         <thead>
                         <tr>
                             <th>No</th>
-                            <th>Name</th>
                             <th>Price</th>
                             <th>Size</th>
                             <th>Ice</th>
                             <th>Sugar</th>
-                            <th>Topping</th>
+                            <th>Store Name</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="bobaTea, iterationStatus : ${filteredBobaTea}">
+                        <tr th:each="bobaTeaXStore, iterationStatus : ${listBobaTeaXStore}">
                             <td th:text="${iterationStatus.count}"></td>
-                            <td th:text="${bobaTea.name}"></td>
-                            <td th:text="'Rp ' + ${#numbers.formatInteger(bobaTea.price,0,'POINT')}"></td>
-                            <div th:switch="${bobaTea.size}">
+                            <td th:text="'Rp ' + ${#numbers.formatInteger(bobaTeaXStore.bobaTea.price,0,'POINT')}"></td>
+                            <div th:switch="${bobaTeaXStore.bobaTea.size}">
                                 <td th:case="0" th:text="S"></td>
                                 <td th:case="1" th:text="M"></td>
                                 <td th:case="2" th:text="L"></td>
                             </div>
-                            <div th:switch="${bobaTea.iceLevel}">
+                            <div th:switch="${bobaTeaXStore.bobaTea.iceLevel}">
                                 <td th:case="0" th:text="Less"></td>
                                 <td th:case="1" th:text="Normal"></td>
                                 <td th:case="2" th:text="Extra"></td>
                             </div>
-                            <div th:switch="${bobaTea.sugarLevel}">
+                            <div th:switch="${bobaTeaXStore.bobaTea.sugarLevel}">
                                 <td th:case="0" th:text="Less"></td>
                                 <td th:case="1" th:text="Normal"></td>
                                 <td th:case="2" th:text="Extra"></td>
                             </div>
-                            <td th:text="${bobaTea.topping != null} ? ${bobaTea.topping.name} : '-'"></td>
+                            <td th:text="${bobaTeaXStore.store.name}"></td>
                         </tr>
                         </tbody>
                     </table>
-
                 </div>
                 <br>
                 <a class="btn btn-primary" href="/">Home</a>

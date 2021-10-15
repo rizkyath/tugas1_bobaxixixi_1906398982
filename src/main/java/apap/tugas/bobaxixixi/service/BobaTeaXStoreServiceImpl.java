@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,19 +40,6 @@ public class BobaTeaXStoreServiceImpl implements BobaTeaXStoreService {
     }
 
     @Override
-    public boolean bobaTeaXStoreNotExist(BobaTeaXStore bobaTeaXStore){
-        BobaTea bobaTea = bobaTeaXStore.getBobaTea();
-        Store store = bobaTeaXStore.getStore();
-        List<BobaTeaXStore> bobaTeaXStoreList = bobaTeaXStoreDB.findBobaTeaXStoreByStoreAndAndBobaTea(store, bobaTea);
-        try{
-            if (bobaTeaXStoreList.size() == 0) return true;
-            else return true;
-        } catch (NullPointerException e){
-            return true;
-        }
-    }
-
-    @Override
     public void deleteRelasiByStore(Store store){
         bobaTeaXStoreDB.deleteAllByStore(store);
     }
@@ -60,4 +48,15 @@ public class BobaTeaXStoreServiceImpl implements BobaTeaXStoreService {
     public void deleteRelasiByBobaTea(BobaTea bobaTea) {
         bobaTeaXStoreDB.deleteAllByBobaTea(bobaTea);
     }
+
+    @Override
+    public List<BobaTeaXStore> filterRelasiByBoba(List<BobaTea> listBoba){
+        List<BobaTeaXStore> listBobaTeaXStore = new ArrayList<>();
+        for (BobaTea bobaTea : listBoba) {
+            List<BobaTeaXStore> filteredBobaTeaXStore = bobaTeaXStoreDB.findAllByBobaTea(bobaTea);
+            listBobaTeaXStore.addAll(filteredBobaTeaXStore);
+        }
+        return listBobaTeaXStore;
+    }
+
 }

@@ -148,7 +148,7 @@ public class StoreController {
                 bobaTeaXStoreService.addBobaTeaXStore(bobaTeaXStore);
             }
             model.addAttribute("listBobaTeaXStore", store.getBobaTeaXStoreSet());
-            model.addAttribute("msg", "Boba Teas successfully updated for Store" + store.getName());
+            model.addAttribute("msg", "Boba Teas successfully updated for Store " + store.getName());
         } else {
             model.addAttribute("msg", "Boba unassigned from Store " + store.getName());
         }

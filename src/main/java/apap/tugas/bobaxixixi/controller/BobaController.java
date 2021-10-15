@@ -1,9 +1,6 @@
 package apap.tugas.bobaxixixi.controller;
 
-import apap.tugas.bobaxixixi.model.BobaTea;
-import apap.tugas.bobaxixixi.model.BobaTeaXStore;
-import apap.tugas.bobaxixixi.model.Store;
-import apap.tugas.bobaxixixi.model.Topping;
+import apap.tugas.bobaxixixi.model.*;
 import apap.tugas.bobaxixixi.service.BobaTeaService;
 import apap.tugas.bobaxixixi.service.BobaTeaXStoreService;
 import apap.tugas.bobaxixixi.service.StoreService;
@@ -14,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -68,15 +66,17 @@ public class BobaController {
         model.addAttribute("bobaTea", bobaTea);
         model.addAttribute("topping", bobaTea.getTopping());
         model.addAttribute("listTopping", toppingService.getListTopping());
-        return "bobaTea/form-update-bobatea";
+        return "bobatea/form-update-bobatea";
     }
 
-    @PostMapping("/boba/update")
+    @PostMapping("/boba/update/{idBobaTea}")
     public String updateBobaTeaSubmitPage(
+            @PathVariable long idBobaTea,
             @ModelAttribute BobaTea bobaTea,
             Model model
     ){
-        Set<BobaTeaXStore> bobaTeaXStoreSet = bobaTea.getBobaTeaXStoreSet();
+        BobaTea bobaTea1 = bobaTeaService.getBobaTeaById(idBobaTea);
+        Set<BobaTeaXStore> bobaTeaXStoreSet = bobaTea1.getBobaTeaXStoreSet();
         if (bobaTeaXStoreSet != null){
             for (BobaTeaXStore bobaTeaXStore : bobaTeaXStoreSet){
                 Store store = bobaTeaXStore.getStore();
@@ -96,7 +96,7 @@ public class BobaController {
     ) {
         BobaTea bobaTea = bobaTeaService.getBobaTeaById(idBobaTea);
         Set<BobaTeaXStore> bobaTeaXStoreSet = bobaTea.getBobaTeaXStoreSet();
-        model.addAttribute("namaBoba", bobaTea.getName());
+        model.addAttribute("namaBobaTea", bobaTea.getName());
         model.addAttribute("idBobaTea", bobaTea.getIdBobaTea());
         try {
             if (bobaTeaXStoreSet.size() == 0) {
@@ -149,23 +149,37 @@ public class BobaController {
     }
 
     @GetMapping("/search")
-    public String searchGetMapping(Model model) {
-        List<BobaTea> listBoba = bobaTeaService.getListBobaTea();
+    public String searchBoba(
+            @RequestParam(name="bobaName", required = false) String bobaName,
+            @RequestParam(name="topping", required = false) String toppingName,
+            Model model
+    ) {
+        List<BobaTea> listBobaTea = bobaTeaService.getListBobaTea();
         List<Topping> listTopping = toppingService.getListTopping();
-        model.addAttribute("listBobaTea", listBoba);
+        model.addAttribute("listBobaTea", listBobaTea);
         model.addAttribute("listTopping", listTopping);
+        List<BobaTea> filteredBobaByName = bobaTeaService.filterBobaTea(bobaName, toppingName);
+        System.out.println(filteredBobaByName);
+        List<BobaTeaXStore> listBobaTeaXStore = bobaTeaXStoreService.filterRelasiByBoba(filteredBobaByName);
+        model.addAttribute("listBobaTeaXStore", listBobaTeaXStore);
         return "bobatea/search";
     }
 
-    @RequestMapping("/search")
-    public String searchRequestMapping(
-            @RequestParam(value="bobaName", required = true) String bobaName,
-            @RequestParam(value="topping", required = true) String toppingName,
+    @GetMapping("/filter/manager")
+    public String filterManager(
+            @RequestParam(name="nameBoba", required = false) String bobaName,
             Model model
     ) {
-        System.out.println(bobaName);
-        System.out.println(toppingName);
-        return "bobatea/search";
+        List<BobaTea> listBobaTea = bobaTeaService.getListBobaTea();
+        List<BobaTea> filteredBobaByName = bobaTeaService.getListBobaTeaByName(bobaName);
+        List<BobaTeaXStore> listBobaTeaXStore = bobaTeaXStoreService.filterRelasiByBoba(filteredBobaByName);
+        Set<Manager> listManager = new HashSet<>();
+        for (BobaTeaXStore bobaTeaXStore : listBobaTeaXStore) {
+            listManager.add(bobaTeaXStore.getStore().getManager());
+        }
+        model.addAttribute("listBobaTea", listBobaTea);
+        model.addAttribute("listManager", listManager);
+        return "bobatea/filter-manager";
     }
 
 }
