@@ -36,7 +36,7 @@
                                            th:value="${bobaTea.idBobaTea}" id="flexCheckDefault">
                                 </td>
                                 <td th:text="${bobaTea.name}"></td>
-                                <td th:text="${bobaTea.price}"></td>
+                                <td th:text="'Rp ' + ${#numbers.formatInteger(bobaTea.price,0,'POINT')}"></td>
                                 <div th:switch="${bobaTea.size}">
                                     <td th:case="0" th:text="S"></td>
                                     <td th:case="1" th:text="M"></td>

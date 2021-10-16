@@ -41,7 +41,7 @@
                             <td th:text="${iterationStatus.count}"></td>
                             <td th:text="${boba.bobaTea.name}"></td>
                             <td th:text="${boba.bobaTea.topping} != null ? ${boba.bobaTea.topping.name} : '-'"></td>
-                            <td th:text="${boba.bobaTea.price}"></td>
+                            <td th:text="'Rp ' + ${#numbers.formatInteger(boba.bobaTea.price,0,'POINT')}"></td>
                         </tr>
                         </tbody>
                     </table>

@@ -161,6 +161,12 @@ public class BobaController {
         List<BobaTea> filteredBobaByName = bobaTeaService.filterBobaTea(bobaName, toppingName);
         System.out.println(filteredBobaByName);
         List<BobaTeaXStore> listBobaTeaXStore = bobaTeaXStoreService.filterRelasiByBoba(filteredBobaByName);
+        for (int i = 0; i<listBobaTeaXStore.size(); i++) {
+            Store store = listBobaTeaXStore.get(i).getStore();
+            if (storeService.isTutup(store)){
+                listBobaTeaXStore.remove(i);
+            }
+        }
         model.addAttribute("listBobaTeaXStore", listBobaTeaXStore);
         return "bobatea/search";
     }
